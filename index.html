@@ -1,31 +1,57 @@
-<html>
-  <head>
-    <title>Robux - Roblox</title>
-  </head>
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Robux - Roblox</title>
   <style>
-  .btn {
-    display: inline-block;
-    padding: 14px 28px;
-    background: linear-gradient(135deg, #ffcc00, #ff8800);
-    color: white;
-    font-weight: bold;
-    font-size: 18px;
-    text-decoration: none;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-  }
+    /* Corps : centrer sur toute la page (vertical + horizontal).
+       Pas de font-family défini : on garde la police par défaut du navigateur. */
+    html,body {
+      height: 100%;
+      margin: 0;
+    }
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f7f7f8; /* léger fond pour contraste ; change si tu veux */
+    }
 
-  .btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 18px rgba(0,0,0,0.3);
-  }
+    /* Le lien affiché comme un bouton, tout en utilisant la police par défaut */
+    .btn {
+      display: inline-block;
+      padding: 14px 28px;
+      background: linear-gradient(135deg, #ffcc00, #ff8800);
+      color: #111;
+      font-weight: 700;
+      font-size: 16px;
+      text-decoration: none;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      transition: transform .16s ease, box-shadow .16s ease, opacity .12s ease;
+      border: none;
+      cursor: pointer;
+      /* conserve la police par défaut du navigateur */
+      font: inherit;
+    }
 
-  .btn:active {
-    transform: scale(0.97);
-  }
-</style>
-  <body>
-    <a href="robux.exe" class="btn">Robux in the Files</a>
-  </body>
+    .btn:hover { transform: translateY(-3px); }
+    .btn:active { transform: translateY(-1px) scale(.995); opacity: .95; }
+
+    /* Focus visible pour accessibilité (clavier) */
+    .btn:focus {
+      outline: 3px solid rgba(0,0,0,0.12);
+      outline-offset: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Remplace href="robux.exe" par un lien sûr si nécessaire -->
+  <a href="robux.exe" class="btn" role="button" aria-label="Robux in the Files">
+    Robux in the Files
+  </a>
+
+</body>
 </html>
