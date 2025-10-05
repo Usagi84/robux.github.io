@@ -1,67 +1,414 @@
-<!doctype html>
-<html lang="fr">
+<!DOCTYPE html>
+<html lang="en" class="h-full">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Robux - Roblox</title>
-  <style>
-    /* Page entièrement blanche */
-    html, body {
-      height: 100%;
-      margin: 0;
-      background: #ffffff; /* fond vraiment blanc */
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Brainrots - Get Your Steal a Brainrot Items</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="/assets/css/app.css" rel="stylesheet">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="/assets/images/placeholder.webp" type="image/webp">
+    
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="902791b2f78b8cf4cd1cdcf9c4ee64f28c5397e807fa541d2925cf9117543cb7">
+    <!-- Meta tags -->
+    <meta name="description" content="Get free Steal a Brainrot items instantly! Choose from legendary, mythic, and brainrot-god tier items.">
+    <meta name="keywords" content="roblox, steal a brainrot, free items, brainrot generator">
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TN9R5Y6XB5"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-TN9R5Y6XB5');
+    </script>
 
-    /* Centrage vertical + horizontal */
-    body {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    /* Bouton très grand, texte blanc (police par défaut du navigateur) */
-    .btn {
-      display: inline-block;
-      padding: 28px 56px;        /* plus gros */
-      font-size: 28px;          /* texte en plus gros */
-      font-weight: 700;
-      color: #ffffff;           /* police blanche */
-      text-decoration: none;
-      border-radius: 16px;
-      background: linear-gradient(135deg, #0b63d6 0%, #0a47a1 100%); /* fond du bouton foncé pour contraste */
-      box-shadow: 0 18px 40px rgba(10,70,160,0.18), 0 6px 14px rgba(10,70,160,0.12);
-      transition: transform .16s ease, box-shadow .16s ease, opacity .12s ease;
-      border: none;
-      cursor: pointer;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
-
-    .btn:hover { transform: translateY(-4px); }
-    .btn:active { transform: translateY(-2px) scale(.995); opacity:.95; }
-
-    /* Focus visible (accessibilité clavier) */
-    .btn:focus {
-      outline: 4px solid rgba(11,99,214,0.18);
-      outline-offset: 6px;
-    }
-
-    /* Optionnel : petite variante pour bord clair (si tu veux un look "outline") */
-    .btn.outline {
-      background: transparent;
-      color: #111;
-      border: 3px solid rgba(0,0,0,0.08);
-      box-shadow: 0 8px 18px rgba(0,0,0,0.06);
-    }
-  </style>
+    <!-- OGAds Content Locker (JS activation) -->
+    <script type="text/javascript" id="ogjs" src="https://check-install.com/cl/js/xpv1xg"></script>
 </head>
-<body>
+<body class="h-full bg-gradient-to-br from-blue-50 via-white to-blue-50">
+    <!-- TikTok Popup -->
+    <div id="tiktok-popup" style="display:none">
+        <div class="bg-white">
+            On <span class="tiktok-icon"></span> you need to tap on the <span class="three-dots"></span> and then tap on <span class="highlight">"Open in browser"</span> to claim your free brainrot.
+        </div>
+    </div>
 
-  <!-- Remplace href par un lien sûr -->
-  <a href="robux.exe" class="btn" role="button" aria-label="Robux in the Files">
-    Robux in the Files
-  </a>
+    <!-- Navigation -->
+    <nav class="bg-white/80 backdrop-blur-md shadow-lg sticky top-0 z-50 border-b border-blue-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-2">
+                    <a href="/" class="flex items-center space-x-2">
+                        <img src="/assets/images/placeholder.webp" alt="Logo" class="w-8 h-8 rounded-lg">
+                        <span class="text-xl font-bold bg-gradient-to-r from-blue-600 to-blue-600 bg-clip-text text-transparent">
+                            FreeBrainrots
+                        </span>
+                    </a>
+                </div>
+                
+                <div class="hidden md:flex items-center space-x-6">
+                    <a href="#generator" class="text-gray-700 hover:text-blue-600 font-medium transition-colors">Generator</a>
+                    <a href="/brainrots" class="text-gray-700 hover:text-blue-600 font-medium transition-colors">All Brainrots</a>
+                    <a href="/guides" class="text-gray-700 hover:text-blue-600 font-medium transition-colors">Guides</a>
+                    <a href="https://discord.gg/gnqJq6TMhS" target="_blank" class="text-gray-700 hover:text-blue-600 font-medium transition-colors">Discord</a>
+                </div>
+                
+                <!-- Mobile menu button -->
+                <button id="mobile-menu-btn" class="md:hidden p-2 rounded-md text-gray-600 hover:text-blue-600 hover:bg-blue-50">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-blue-100">
+            <div class="px-4 py-3 space-y-2">
+                <a href="#generator" class="block text-gray-700 hover:text-blue-600 font-medium">Generator</a>
+                <a href="/brainrots" class="block text-gray-700 hover:text-blue-600 font-medium">All Brainrots</a>
+                <a href="/guides" class="block text-gray-700 hover:text-blue-600 font-medium">Guides</a>
+                <a href="https://discord.gg/gnqJq6TMhS" target="_blank" class="block text-gray-700 hover:text-blue-600 font-medium">Discord</a>
+            </div>
+        </div>
+    </nav>
 
+    <!-- Hero Section -->
+    <section class="relative py-12 sm:py-20 overflow-hidden">
+        <!-- Floating Brainrot Background -->
+        <div id="floating-items-container"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+            <h1 class="text-4xl sm:text-6xl font-extrabold mb-6">
+                <span class="bg-gradient-to-r from-blue-600 via-blue-600 to-blue-400 bg-clip-text text-transparent">
+                    Free Brainrots
+                </span>
+            </h1>
+            <p class="text-xl sm:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto">
+                Get your favorite Steal a Brainrot items instantly! Choose from legendary, mythic, and brainrot-god tier items.
+            </p>
+            <button onclick="scrollToGenerator()" class="bg-gradient-to-r from-blue-600 to-blue-600 text-white px-8 py-4 rounded-xl font-semibold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-200">
+                Start Generating
+            </button>
+            <div class="mt-4">
+                <a href="/claim" class="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium">
+                    <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    My Generated Brainrots
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Brainrots -->
+    <section class="py-12 bg-white/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-3xl font-bold text-gray-800">Recently Claimed</h2>
+                <a href="/slider" class="text-blue-600 hover:text-blue-800 font-medium flex items-center">
+                    View All
+                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </a>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+                                    <div class="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow p-4 text-center brainrot-card">
+                        <img src="/assets/images/stealabrainrot/brainrots/legendary/pipi-potato.webp"
+                             alt="Pipi Potato"
+                             class="w-16 h-16 sm:w-20 sm:h-20 mx-auto rounded-lg object-cover mb-3 border-2 border-white shadow"
+                             loading="lazy">
+                        <h3 class="font-semibold text-sm sm:text-base text-gray-800 mb-2 line-clamp-2">
+                            Pipi Potato                        </h3>
+                        <span class="inline-block px-3 py-1 text-xs font-medium rounded-full bg-orange-100 text-orange-600">
+                            Legendary                        </span>
+                    </div>
+                                    <div class="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow p-4 text-center brainrot-card">
+                        <img src="/assets/images/stealabrainrot/brainrots/legendary/burbaloni-loliloli.webp"
+                             alt="Burbaloni Loliloli"
+                             class="w-16 h-16 sm:w-20 sm:h-20 mx-auto rounded-lg object-cover mb-3 border-2 border-white shadow"
+                             loading="lazy">
+                        <h3 class="font-semibold text-sm sm:text-base text-gray-800 mb-2 line-clamp-2">
+                            Burbaloni Loliloli                        </h3>
+                        <span class="inline-block px-3 py-1 text-xs font-medium rounded-full bg-orange-100 text-orange-600">
+                            Legendary                        </span>
+                    </div>
+                                    <div class="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow p-4 text-center brainrot-card">
+                        <img src="/assets/images/stealabrainrot/brainrots/brainrot-god/bulbito-bandito-traktorito.webp"
+                             alt="Bulbito Bandito Traktorito"
+                             class="w-16 h-16 sm:w-20 sm:h-20 mx-auto rounded-lg object-cover mb-3 border-2 border-white shadow"
+                             loading="lazy">
+                        <h3 class="font-semibold text-sm sm:text-base text-gray-800 mb-2 line-clamp-2">
+                            Bulbito Bandito Traktorito                        </h3>
+                        <span class="inline-block px-3 py-1 text-xs font-medium rounded-full bg-yellow-100 text-yellow-600">
+                            Brainrot god                        </span>
+                    </div>
+                                    <div class="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow p-4 text-center brainrot-card">
+                        <img src="/assets/images/stealabrainrot/brainrots/brainrot-god/ballerino-lololo.webp"
+                             alt="Ballerino Lololo"
+                             class="w-16 h-16 sm:w-20 sm:h-20 mx-auto rounded-lg object-cover mb-3 border-2 border-white shadow"
+                             loading="lazy">
+                        <h3 class="font-semibold text-sm sm:text-base text-gray-800 mb-2 line-clamp-2">
+                            Ballerino Lololo                        </h3>
+                        <span class="inline-block px-3 py-1 text-xs font-medium rounded-full bg-yellow-100 text-yellow-600">
+                            Brainrot god                        </span>
+                    </div>
+                            </div>
+        </div>
+    </section>
+
+    <!-- Generator Section -->
+    <section id="generator" class="py-16">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-white rounded-2xl shadow-xl p-6 sm:p-8">
+                
+                <!-- Progress Indicator -->
+                <div class="flex items-center justify-center mb-8">
+                    <div class="flex items-center space-x-4">
+                        <div class="step-indicator active" data-step="1">
+                            <span class="step-number">1</span>
+                            <span class="step-label">Username</span>
+                        </div>
+                        <div class="step-connector"></div>
+                        <div class="step-indicator" data-step="2">
+                            <span class="step-number">2</span>
+                            <span class="step-label">Verify</span>
+                        </div>
+                        <div class="step-connector"></div>
+                        <div class="step-indicator" data-step="3">
+                            <span class="step-number">3</span>
+                            <span class="step-label">Choose</span>
+                        </div>
+                        <div class="step-connector"></div>
+                        <div class="step-indicator" data-step="4">
+                            <span class="step-number">4</span>
+                            <span class="step-label">Generate</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 1: Username Input -->
+                <div id="step-1" class="step-content active">
+                    <div class="text-center mb-8">
+                        <h2 class="text-3xl font-bold text-gray-800 mb-2">Enter Your Roblox Username</h2>
+                        <p class="text-gray-600">We'll verify your account to deliver your free brainrot</p>
+                    </div>
+                    
+                    <div class="max-w-md mx-auto">
+                        <div class="relative">
+                            <input type="text" 
+                                   id="username-input" 
+                                   placeholder="e.g., CoolGamer123" 
+                                   maxlength="20"
+                                   class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none text-center text-lg transition-all">
+                            <div id="username-error" class="hidden mt-2 text-red-500 text-sm text-center"></div>
+                        </div>
+                        
+                        <button id="verify-btn" 
+                                onclick="verifyUsername()" 
+                                class="w-full mt-6 bg-gradient-to-r from-blue-600 to-blue-600 text-white py-3 px-6 rounded-xl font-semibold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none">
+                            <span class="btn-text">Verify & Continue</span>
+                            <span class="btn-loader hidden">
+                                <svg class="animate-spin w-5 h-5 mx-auto" fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Step 2: Avatar Verification -->
+                <div id="step-2" class="step-content hidden">
+                    <div class="text-center mb-8">
+                        <h2 class="text-3xl font-bold text-gray-800 mb-2">Confirm Your Avatar</h2>
+                        <p class="text-gray-600">Is this your Roblox account?</p>
+                    </div>
+                    
+                    <div class="max-w-md mx-auto text-center">
+                        <div class="mb-6">
+                            <img id="user-avatar" 
+                                 src="" 
+                                 alt="User Avatar" 
+                                 class="w-32 h-32 mx-auto rounded-full shadow-lg border-4 border-blue-100">
+                            <h3 id="user-display-name" class="text-xl font-semibold text-gray-800 mt-4"></h3>
+                        </div>
+                        
+                        <div class="space-y-3">
+                            <button onclick="confirmAvatar()" 
+                                    class="w-full bg-green-600 hover:bg-green-700 text-white py-3 px-6 rounded-xl font-semibold transition-colors">
+                                ✓ Yes, That's Me!
+                            </button>
+                            <a href="/"
+                               class="w-full bg-gray-300 hover:bg-gray-400 text-gray-700 py-3 px-6 rounded-xl font-semibold transition-colors inline-block text-center">
+                                ← Try Different Username
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3: Brainrot Selection -->
+                <div id="step-3" class="step-content hidden">
+                    <div class="text-center mb-8">
+                        <h2 class="text-3xl font-bold text-gray-800 mb-2">Choose Your Free Brainrot</h2>
+                        <p class="text-gray-600">Search and select your desired brainrot</p>
+                    </div>
+                    
+                    <div class="max-w-md mx-auto">
+                        <div class="relative mb-6">
+                            <input type="text" 
+                                   id="brainrot-search" 
+                                   placeholder="Search brainrots..." 
+                                   class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none text-lg transition-all">
+                            <div id="search-results" class="absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-xl shadow-lg mt-1 max-h-64 overflow-y-auto hidden z-10"></div>
+                        </div>
+                        
+                        <div id="selected-brainrot" class="hidden bg-blue-50 rounded-xl p-4 mb-6">
+                            <h3 class="font-semibold text-gray-800 mb-2">Selected Brainrot:</h3>
+                            <div class="flex items-center space-x-3">
+                                <img id="selected-image" src="" alt="" class="w-16 h-16 rounded-lg object-cover">
+                                <div>
+                                    <p id="selected-name" class="font-semibold text-gray-800"></p>
+                                    <span id="selected-rarity" class="text-sm px-2 py-1 rounded-full"></span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button id="generate-btn" 
+                                onclick="startGeneration()" 
+                                disabled
+                                class="w-full bg-gradient-to-r from-green-600 to-blue-600 text-white py-3 px-6 rounded-xl font-semibold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none">
+                            Generate FREE Brainrot! 🎁
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Step 4: Generation & Offerwall -->
+                <div id="step-4" class="step-content hidden">
+                    <div class="text-center mb-8">
+                        <h2 class="text-3xl font-bold text-gray-800 mb-2">Generating Your Brainrot</h2>
+                        <p class="text-gray-600">Complete the offer below to receive your brainrot instantly!</p>
+                    </div>
+                    
+                    <!-- Generation Progress -->
+                    <div id="generation-progress" class="max-w-md mx-auto mb-8">
+                        <div class="bg-gray-200 rounded-full h-3 mb-4">
+                            <div id="progress-bar" class="bg-gradient-to-r from-blue-600 to-blue-600 h-3 rounded-full transition-all duration-500" style="width: 0%"></div>
+                        </div>
+                        <p id="progress-text" class="text-center text-gray-600">Initializing...</p>
+                    </div>
+                    
+                    <!-- Selected Brainrot Display -->
+<div id="generating-brainrot" class="max-w-md mx-auto text-center mb-8">
+<div class="bg-gradient-to-br from-blue-50 to-blue-50 rounded-xl p-6">
+<img id="generating-image" src="" alt="" class="w-24 h-24 mx-auto rounded-lg object-cover mb-4">
+<h3 id="generating-name" class="text-xl font-bold text-gray-800 mb-2"></h3>
+<span id="generating-rarity" class="px-3 py-1 rounded-full text-sm font-medium"></span>
+</div>
+</div>
+
+<!-- Offerwall Container -->
+<div id="offerwall-container" class="bg-white rounded-xl border-2 border-blue-200 p-6">
+<div class="text-center mb-4">
+<div class="inline-flex items-center px-4 py-2 bg-blue-100 text-blue-800 rounded-lg mb-4">
+<svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+<path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+</svg>
+Complete this offer to get your brainrot!
+</div>
+</div>
+
+<!-- OGADS Offerwall will be loaded here -->
+<div id="ogads-container" class="min-h-[400px] flex items-center justify-center hidden">
+<div class="text-center">
+<div class="animate-spin w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full mx-auto mb-4"></div>
+<p class="text-gray-600">Loading offers...</p>
+</div>
+</div>
+
+<div id="offer-complete-section" class="text-center mt-6 hidden">
+<button onclick="completeOffer()"
+class="bg-green-600 hover:bg-green-700 text-white py-3 px-8 rounded-xl font-semibold transition-colors">
+I've Completed the Offer! ✅
+</button>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+</section>
+
+<!-- Features Section -->
+<section class="py-16 bg-gradient-to-r from-blue-600 to-blue-600">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<h2 class="text-3xl font-bold text-center text-white mb-12">Why Choose FreeBrainrots?</h2>
+
+<div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+<div class="text-center text-white">
+<div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+<svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+<path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"></path>
+</svg>
+</div>
+<h3 class="text-xl font-semibold mb-2">Instant Delivery</h3>
+<p class="text-blue-100">Get your brainrots delivered instantly after completing offers</p>
+</div>
+
+<div class="text-center text-white">
+<div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+<svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+<path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+</svg>
+</div>
+<h3 class="text-xl font-semibold mb-2">High-Tier Items</h3>
+<p class="text-blue-100">Access legendary, mythic, and brainrot-god tier items</p>
+</div>
+
+<div class="text-center text-white">
+<div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+<svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+<path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path>
+</svg>
+</div>
+<h3 class="text-xl font-semibold mb-2">Safe & Secure</h3>
+<p class="text-blue-100">Verified accounts and secure offer completion process</p>
+</div>
+
+<div class="text-center text-white">
+<div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+<svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+<path fill-rule="evenodd" d="M3 5a2 2 0 012-2h10a2 2 0 012 2v8a2 2 0 01-2 2h-2.22l.123.489.804.804A1 1 0 0113 18H7a1 1 0 01-.707-1.707l.804-.804L7.22 15H5a2 2 0 01-2-2V5zm5.771 7H5V5h10v7H8.771z" clip-rule="evenodd"></path>
+</svg>
+</div>
+<h3 class="text-xl font-semibold mb-2">Mobile Friendly</h3>
+<p class="text-blue-100">Optimized for mobile devices - generate on the go!</p>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-gray-900 text-white py-8">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+<p>&copy; 2025 FreeBrainrots.com - Get your free Steal a Brainrot items</p>
+<p class="text-gray-400 text-sm mt-2">Not affiliated with Roblox Corporation</p>
+<div class="mt-4">
+<a href="/terms" class="text-gray-400 hover:text-white text-sm">Terms</a>
+</div>
+</div>
+</footer>
+
+<!-- Toast Notifications -->
+<div id="toast-container" class="fixed top-4 right-4 z-50 space-y-2"></div>
+
+<!-- Scripts -->
+<script src="/assets/js/app.js" type="module"></script>
 </body>
-</htm
-
+</html>
