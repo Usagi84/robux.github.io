@@ -1,351 +1,773 @@
-import React, { useState } from 'react';
-import { Check, Zap, Star, Shield, Monitor } from 'lucide-react';
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FreeBrainrots - Toilettes Spaghetti</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-export default function FreeBrainrots() {
-  const [step, setStep] = useState(1);
-  const [username, setUsername] = useState('');
-  const [userAvatar, setUserAvatar] = useState('');
-  const [displayName, setDisplayName] = useState('');
-  const [userId, setUserId] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [saveName, setSaveName] = useState('');
-  const [savePassword, setSavePassword] = useState('');
-  const [offerCompleted, setOfferCompleted] = useState(false);
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            min-height: 100vh;
+        }
 
-  const brainrotItem = {
-    name: "Toilettes Spaghetti",
-    rarity: "BRAINROT-GOD",
-    image: "https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=300&h=300&fit=crop"
-  };
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
 
-  const checkUsername = async () => {
-    if (!username.trim()) {
-      alert('Entre un pseudo Roblox!');
-      return;
-    }
+        /* Header */
+        header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
 
-    setLoading(true);
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
 
-    try {
-      const response = await fetch(`https://users.roproxy.com/v1/usernames/users`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          usernames: [username],
-          excludeBannedUsers: false
-        })
-      });
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
 
-      const data = await response.json();
+        .logo-icon {
+            font-size: 2rem;
+        }
 
-      if (data.data && data.data.length > 0) {
-        const user = data.data[0];
-        const userIdFound = user.id;
-        
-        const avatarResponse = await fetch(`https://thumbnails.roproxy.com/v1/users/avatar-headshot?userIds=${userIdFound}&size=150x150&format=Png&isCircular=false`);
-        const avatarData = await avatarResponse.json();
-        
-        setUserAvatar(avatarData.data[0].imageUrl);
-        setDisplayName(user.displayName);
-        setUserId(userIdFound);
-        setStep(2);
-      } else {
-        alert('Joueur introuvable! Vérifie le pseudo.');
-      }
-    } catch (err) {
-      alert('Erreur lors de la recherche. Réessaye!');
-    }
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+        }
 
-    setLoading(false);
-  };
+        .badge {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+        }
 
-  const handleSubmit = () => {
-    if (!saveName.trim() || !savePassword.trim()) {
-      alert('Remplis tous les champs!');
-      return;
-    }
-    setStep(3);
-  };
+        /* Hero */
+        .hero {
+            text-align: center;
+            padding: 3rem 1rem;
+        }
 
-  const completeOffer = () => {
-    setOfferCompleted(true);
-    setTimeout(() => {
-      alert('✅ Traitement en cours...\n\n(Ce site est fictif, aucune donnée n\'a été envoyée 😊)');
-    }, 500);
-  };
+        .hero-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 1rem;
+        }
 
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500">
-      {/* Header */}
-      <header className="bg-white/10 backdrop-blur-md border-b border-white/20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2">
-              <div className="text-3xl">🚽</div>
-              <h1 className="text-2xl font-bold text-white">FreeBrainrots</h1>
-            </div>
-            <div className="text-white text-sm">
-              <span className="bg-white/20 px-3 py-1 rounded-full">Steal a Brainrot</span>
-            </div>
-          </div>
-        </div>
-      </header>
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2rem;
+        }
 
-      {/* Hero Section */}
-      <section className="py-12 px-4">
-        <div className="max-w-4xl mx-auto text-center mb-8">
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            Get FREE Toilettes Spaghetti! 🍝
-          </h2>
-          <p className="text-xl text-white/90">
-            The most BRAINROT item in Steal a Brainrot - Claim yours now!
-          </p>
-        </div>
+        /* Cards */
+        .card {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
+            margin: 0 auto;
+        }
 
-        <div className="max-w-4xl mx-auto">
-          {/* Step 1: Username Input */}
-          {step === 1 && (
-            <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-md mx-auto">
-              <div className="text-center mb-6">
-                <div className="text-6xl mb-4">🎮</div>
-                <h3 className="text-2xl font-bold text-gray-800 mb-2">
-                  Enter Your Roblox Username
-                </h3>
-                <p className="text-gray-600">
-                  We'll verify your account to send you the item
-                </p>
-              </div>
+        .card-icon {
+            font-size: 4rem;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
 
-              <div className="space-y-4">
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #1f2937;
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-text {
+            color: #6b7280;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Forms */
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid #93c5fd;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+
+        /* Buttons */
+        .btn {
+            width: 100%;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.4);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+        }
+
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(16, 185, 129, 0.4);
+        }
+
+        /* Profile Card */
+        .profile-card {
+            background: linear-gradient(135deg, #eff6ff 0%, #f3e8ff 100%);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .profile-avatar {
+            width: 6rem;
+            height: 6rem;
+            border-radius: 0.5rem;
+            border: 4px solid #3b82f6;
+            margin: 0 auto 1rem;
+            object-fit: cover;
+        }
+
+        .profile-name {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-info {
+            color: #6b7280;
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+        }
+
+        .rarity-badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            color: white;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(251, 191, 36, 0.4);
+        }
+
+        .brainrot-image {
+            width: 8rem;
+            height: 8rem;
+            border-radius: 0.5rem;
+            margin: 1rem auto;
+            object-fit: cover;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Offerwall */
+        .offerwall {
+            background: white;
+            border-radius: 1rem;
+            border: 2px solid #bfdbfe;
+            padding: 1.5rem;
+        }
+
+        .info-box {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: #dbeafe;
+            color: #1e40af;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .offer-placeholder {
+            min-height: 400px;
+            background: #f9fafb;
+            border: 2px dashed #d1d5db;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .offer-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .offer-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+        }
+
+        .offer-text {
+            color: #6b7280;
+            margin-bottom: 1.5rem;
+        }
+
+        .loading-dots {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+        }
+
+        .dot {
+            width: 0.75rem;
+            height: 0.75rem;
+            background: #3b82f6;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        .dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        /* Alert */
+        .alert-warning {
+            background: #fef3c7;
+            border: 1px solid #fcd34d;
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .alert-warning p {
+            color: #92400e;
+            font-size: 0.75rem;
+        }
+
+        .alert-success {
+            background: #d1fae5;
+            border: 1px solid #6ee7b7;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+
+        .alert-success-title {
+            color: #065f46;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .alert-success-text {
+            color: #047857;
+            font-size: 0.875rem;
+        }
+
+        /* Features */
+        .features {
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            padding: 4rem 1rem;
+        }
+
+        .features-title {
+            font-size: 2rem;
+            font-weight: bold;
+            color: white;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-item {
+            text-align: center;
+            color: white;
+        }
+
+        .feature-icon {
+            width: 4rem;
+            height: 4rem;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+        }
+
+        .feature-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-text {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Footer */
+        footer {
+            background: #111827;
+            color: white;
+            padding: 2rem 1rem;
+            text-align: center;
+        }
+
+        .footer-text {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-subtext {
+            color: #9ca3af;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+        }
+
+        .footer-link {
+            color: #9ca3af;
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: color 0.3s;
+        }
+
+        .footer-link:hover {
+            color: white;
+        }
+
+        /* Steps */
+        .step {
+            display: none;
+        }
+
+        .step.active {
+            display: block;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.1);
+                opacity: 0.5;
+            }
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .card {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 min-h-screen">
+    
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">🚽</div>
+                    <h1 class="logo-text">FreeBrainrots</h1>
+                </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Roblox Username
-                  </label>
-                  <input
-                    type="text"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    placeholder="Enter your username..."
-                    className="w-full px-4 py-3 border-2 border-blue-300 rounded-lg focus:outline-none focus:border-blue-500 text-gray-800"
-                    onKeyPress={(e) => e.key === 'Enter' && checkUsername()}
-                  />
+                    <span class="badge">Steal a Brainrot</span>
                 </div>
-
-                <button
-                  onClick={checkUsername}
-                  disabled={loading}
-                  className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 px-6 rounded-lg font-semibold hover:shadow-lg transition-all disabled:opacity-50"
-                >
-                  {loading ? 'Verifying...' : 'Continue →'}
-                </button>
-              </div>
             </div>
-          )}
+        </div>
+    </header>
 
-          {/* Step 2: Display Selected Brainrot */}
-          {step === 2 && (
-            <div>
-              {/* Selected Brainrot Display */}
-              <div className="max-w-md mx-auto text-center mb-8">
-                <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl p-6">
-                  <img 
-                    src={userAvatar} 
-                    alt="Avatar" 
-                    className="w-24 h-24 mx-auto rounded-lg object-cover mb-4 border-4 border-blue-400"
-                  />
-                  <h3 className="text-xl font-bold text-gray-800 mb-2">
-                    {displayName}
-                  </h3>
-                  <p className="text-gray-600 text-sm mb-3">@{username} (ID: {userId})</p>
-                  <div className="inline-block">
-                    <span className="px-4 py-2 rounded-full text-sm font-medium bg-gradient-to-r from-yellow-400 to-orange-500 text-white shadow-lg">
-                      ⚡ {brainrotItem.rarity} ⚡
-                    </span>
-                  </div>
-                  <img 
-                    src={brainrotItem.image} 
-                    alt={brainrotItem.name}
-                    className="w-32 h-32 mx-auto mt-4 rounded-lg object-cover shadow-lg"
-                  />
-                  <p className="mt-3 text-lg font-bold text-gray-800">{brainrotItem.name}</p>
-                </div>
-              </div>
-
-              {/* Account Save Form */}
-              <div className="bg-white rounded-xl border-2 border-blue-200 p-6 max-w-md mx-auto">
-                <div className="text-center mb-6">
-                  <div className="inline-flex items-center px-4 py-2 bg-blue-100 text-blue-800 rounded-lg mb-4">
-                    <Shield className="w-5 h-5 mr-2" />
-                    Create a backup account to receive your item!
-                  </div>
-                </div>
-
-                <div className="space-y-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Backup Name
-                    </label>
-                    <input
-                      type="text"
-                      value={saveName}
-                      onChange={(e) => setSaveName(e.target.value)}
-                      placeholder="Enter a name..."
-                      className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 text-gray-800"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Password
-                    </label>
-                    <input
-                      type="password"
-                      value={savePassword}
-                      onChange={(e) => setSavePassword(e.target.value)}
-                      placeholder="Enter a password..."
-                      className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 text-gray-800"
-                    />
-                  </div>
-
-                  <button
-                    onClick={handleSubmit}
-                    className="w-full bg-gradient-to-r from-green-500 to-green-600 text-white py-3 px-6 rounded-lg font-semibold hover:shadow-lg transition-all"
-                  >
-                    Submit & Get Item 📤
-                  </button>
-
-                  <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 text-center">
-                    <p className="text-xs text-yellow-800">
-                      ⚠️ Site fictif - Aucune donnée n'est collectée
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h2 class="hero-title">
+                Get FREE Toilettes Spaghetti! 🍝
+            </h2>
+            <p class="hero-subtitle">
+                The most BRAINROT item in Steal a Brainrot - Claim yours now!
+            </p>
+            <!-- Step 1: Username Input -->
+            <div id="step1" class="step active">
+                <div class="card">
+                    <div class="card-icon">🎮</div>
+                    <h3 class="card-title">
+                        Enter Your Roblox Username
+                    </h3>
+                    <p class="card-text">
+                        We'll verify your account to send you the item
                     </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
 
-          {/* Step 3: Offerwall */}
-          {step === 3 && (
-            <div className="max-w-2xl mx-auto">
-              {/* Selected Item Display */}
-              <div className="text-center mb-8">
-                <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl p-6 inline-block">
-                  <img 
-                    src={brainrotItem.image} 
-                    alt={brainrotItem.name}
-                    className="w-32 h-32 mx-auto mb-3 rounded-lg object-cover shadow-lg"
-                  />
-                  <h3 className="text-xl font-bold text-gray-800 mb-2">{brainrotItem.name}</h3>
-                  <span className="px-4 py-2 rounded-full text-sm font-medium bg-gradient-to-r from-yellow-400 to-orange-500 text-white">
-                    {brainrotItem.rarity}
-                  </span>
-                </div>
-              </div>
-
-              {/* Offerwall Container */}
-              <div className="bg-white rounded-xl border-2 border-blue-200 p-6">
-                <div className="text-center mb-4">
-                  <div className="inline-flex items-center px-4 py-2 bg-blue-100 text-blue-800 rounded-lg mb-4">
-                    <Star className="w-5 h-5 mr-2" />
-                    Complete this offer to get your brainrot!
-                  </div>
-                </div>
-
-                {/* Fake Offerwall */}
-                <div className="min-h-[400px] flex items-center justify-center bg-gray-50 rounded-lg border-2 border-dashed border-gray-300">
-                  <div className="text-center p-8">
-                    <div className="text-6xl mb-4">🎁</div>
-                    <h4 className="text-xl font-bold text-gray-800 mb-2">Offer Loading...</h4>
-                    <p className="text-gray-600 mb-6">This is where offers would appear</p>
-                    <div className="animate-pulse flex space-x-2 justify-center">
-                      <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
-                      <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
-                      <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
+                    <div class="form-group">
+                        <label class="form-label">
+                            Roblox Username
+                        </label>
+                        <input
+                            type="text"
+                            id="username"
+                            placeholder="Enter your username..."
+                            class="form-input"
+                        />
                     </div>
-                  </div>
-                </div>
 
-                {/* Complete Button */}
-                <div className="text-center mt-6">
-                  {!offerCompleted ? (
-                    <button
-                      onClick={completeOffer}
-                      className="bg-green-600 hover:bg-green-700 text-white py-3 px-8 rounded-xl font-semibold transition-colors"
-                    >
-                      I've Completed the Offer! ✅
+                    <button onclick="checkUsername()" class="btn btn-primary">
+                        Continue →
                     </button>
-                  ) : (
-                    <div className="bg-green-100 border border-green-300 rounded-lg p-4">
-                      <p className="text-green-800 font-semibold">
-                        ✅ Processing your request...
-                      </p>
-                      <p className="text-green-700 text-sm mt-2">
-                        (Site fictif - Aucune donnée envoyée)
-                      </p>
-                    </div>
-                  )}
                 </div>
-              </div>
             </div>
-          )}
+
+            <!-- Step 2: Profile & Backup Form -->
+            <div id="step2" class="step">
+                <!-- Selected Brainrot Display -->
+                <div class="profile-card">
+                    <img 
+                        id="userAvatar"
+                        src=""
+                        alt="Avatar" 
+                        class="profile-avatar"
+                    />
+                    <h3 id="displayName" class="profile-name"></h3>
+                    <p id="userInfo" class="profile-info"></p>
+                    <span class="rarity-badge">
+                        ⚡ BRAINROT-GOD ⚡
+                    </span>
+                    <img 
+                        src="https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=300&h=300&fit=crop"
+                        alt="Toilettes Spaghetti"
+                        class="brainrot-image"
+                    />
+                    <p class="card-title">Toilettes Spaghetti</p>
+                </div>
+
+                <!-- Account Save Form -->
+                <div class="card">
+                    <div style="text-align: center; margin-bottom: 1.5rem;">
+                        <div class="info-box">
+                            <svg style="width: 1.25rem; height: 1.25rem;" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            Create a backup account to receive your item!
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">
+                            Backup Name
+                        </label>
+                        <input
+                            type="text"
+                            id="saveName"
+                            placeholder="Enter a name..."
+                            class="form-input"
+                        />
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">
+                            Password
+                        </label>
+                        <input
+                            type="password"
+                            id="savePassword"
+                            placeholder="Enter a password..."
+                            class="form-input"
+                        />
+                    </div>
+
+                    <button onclick="handleSubmit()" class="btn btn-success">
+                        Submit & Get Item 📤
+                    </button>
+
+                    <div class="alert-warning">
+                        <p>
+                            ⚠️ Site fictif - Aucune donnée n'est collectée
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 3: Offerwall -->
+            <div id="step3" class="step">
+                <div class="max-w-2xl mx-auto fade-in">
+                    <!-- Selected Item Display -->
+                    <div class="text-center mb-8">
+                        <div class="bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl p-6 inline-block">
+                            <img 
+                                src="https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=300&h=300&fit=crop"
+                                alt="Toilettes Spaghetti"
+                                class="w-32 h-32 mx-auto mb-3 rounded-lg object-cover shadow-lg"
+                            />
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">Toilettes Spaghetti</h3>
+                            <span class="px-4 py-2 rounded-full text-sm font-medium bg-gradient-to-r from-yellow-400 to-orange-500 text-white">
+                                BRAINROT-GOD
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Offerwall Container -->
+                    <div class="bg-white rounded-xl border-2 border-blue-200 p-6">
+                        <div class="text-center mb-4">
+                            <div class="inline-flex items-center px-4 py-2 bg-blue-100 text-blue-800 rounded-lg mb-4">
+                                <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                </svg>
+                                Complete this offer to get your brainrot!
+                            </div>
+                        </div>
+
+                        <!-- Fake Offerwall -->
+                        <div class="min-h-[400px] flex items-center justify-center bg-gray-50 rounded-lg border-2 border-dashed border-gray-300">
+                            <div class="text-center p-8">
+                                <div class="text-6xl mb-4">🎁</div>
+                                <h4 class="text-xl font-bold text-gray-800 mb-2">Offer Loading...</h4>
+                                <p class="text-gray-600 mb-6">This is where offers would appear</p>
+                                <div class="flex space-x-2 justify-center">
+                                    <div class="w-3 h-3 bg-blue-500 rounded-full pulse-anim"></div>
+                                    <div class="w-3 h-3 bg-blue-500 rounded-full pulse-anim" style="animation-delay: 0.2s;"></div>
+                                    <div class="w-3 h-3 bg-blue-500 rounded-full pulse-anim" style="animation-delay: 0.4s;"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Complete Button -->
+                        <div class="text-center mt-6">
+                            <button
+                                id="completeBtn"
+                                onclick="completeOffer()"
+                                class="bg-green-600 hover:bg-green-700 text-white py-3 px-8 rounded-xl font-semibold transition-colors"
+                            >
+                                I've Completed the Offer! ✅
+                            </button>
+                            <div id="successMessage" class="hidden bg-green-100 border border-green-300 rounded-lg p-4 mt-4">
+                                <p class="text-green-800 font-semibold">
+                                    ✅ Processing your request...
+                                </p>
+                                <p class="text-green-700 text-sm mt-2">
+                                    (Site fictif - Aucune donnée envoyée)
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </section>
+    </section>
 
-      {/* Features Section */}
-      <section className="py-16 bg-gradient-to-r from-blue-600 to-purple-600">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-center text-white mb-12">
-            Why Choose FreeBrainrots?
-          </h2>
+    <!-- Features Section -->
+    <section class="py-16 bg-gradient-to-r from-blue-600 to-purple-600">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-center text-white mb-12">
+                Why Choose FreeBrainrots?
+            </h2>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="text-center text-white">
-              <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Zap className="w-8 h-8" />
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Instant Delivery</h3>
-              <p className="text-blue-100">Get your brainrots delivered instantly after completing offers</p>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="text-center text-white">
+                    <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Instant Delivery</h3>
+                    <p class="text-blue-100">Get your brainrots delivered instantly after completing offers</p>
+                </div>
+
+                <div class="text-center text-white">
+                    <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">High-Tier Items</h3>
+                    <p class="text-blue-100">Access legendary, mythic, and brainrot-god tier items</p>
+                </div>
+
+                <div class="text-center text-white">
+                    <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Safe & Secure</h3>
+                    <p class="text-blue-100">Verified accounts and secure offer completion process</p>
+                </div>
+
+                <div class="text-center text-white">
+                    <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M3 5a2 2 0 012-2h10a2 2 0 012 2v8a2 2 0 01-2 2h-2.22l.123.489.804.804A1 1 0 0113 18H7a1 1 0 01-.707-1.707l.804-.804L7.22 15H5a2 2 0 01-2-2V5zm5.771 7H5V5h10v7H8.771z" clip-rule="evenodd"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Mobile Friendly</h3>
+                    <p class="text-blue-100">Optimized for mobile devices - generate on the go!</p>
+                </div>
             </div>
-
-            <div className="text-center text-white">
-              <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Star className="w-8 h-8" />
-              </div>
-              <h3 className="text-xl font-semibold mb-2">High-Tier Items</h3>
-              <p className="text-blue-100">Access legendary, mythic, and brainrot-god tier items</p>
-            </div>
-
-            <div className="text-center text-white">
-              <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Shield className="w-8 h-8" />
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Safe & Secure</h3>
-              <p className="text-blue-100">Verified accounts and secure offer completion process</p>
-            </div>
-
-            <div className="text-center text-white">
-              <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Monitor className="w-8 h-8" />
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Mobile Friendly</h3>
-              <p className="text-blue-100">Optimized for mobile devices - generate on the go!</p>
-            </div>
-          </div>
         </div>
-      </section>
+    </section>
 
-      {/* Footer */}
-      <footer className="bg-gray-900 text-white py-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p>&copy; 2025 FreeBrainrots.com - Get your free Steal a Brainrot items</p>
-          <p className="text-gray-400 text-sm mt-2">Not affiliated with Roblox Corporation</p>
-          <div className="mt-4">
-            <a href="#" className="text-gray-400 hover:text-white text-sm">Terms</a>
-          </div>
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p>&copy; 2025 FreeBrainrots.com - Get your free Steal a Brainrot items</p>
+            <p class="text-gray-400 text-sm mt-2">Not affiliated with Roblox Corporation</p>
+            <div class="mt-4">
+                <a href="#" class="text-gray-400 hover:text-white text-sm">Terms</a>
+            </div>
         </div>
-      </footer>
-    </div>
-  );
-}
+    </footer>
+
+    <script>
+        async function checkUsername() {
+            const username = document.getElementById('username').value.trim();
+            
+            if (!username) {
+                alert('Entre un pseudo Roblox!');
+                return;
+            }
+
+            const step1 = document.getElementById('step1');
+            step1.innerHTML = '<div class="bg-white rounded-2xl shadow-2xl p-8 max-w-md mx-auto text-center"><div class="text-gray-600 text-lg">🔍 Recherche du joueur...</div></div>';
+
+            try {
+                const response = await fetch(`https://users.roproxy.com/v1/usernames/users`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        usernames: [username],
+                        excludeBannedUsers: false
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.data && data.data.length > 0) {
+                    const user = data.data[0];
+                    const userId = user.id;
+                    
+                    const avatarResponse = await fetch(`https://thumbnails.roproxy.com/v1/users/avatar-headshot?userIds=${userId}&size=150x150&format=Png&isCircular=false`);
+                    const avatarData = await avatarResponse.json();
+                    
+                    document.getElementById('userAvatar').src = avatarData.data[0].imageUrl;
+                    document.getElementById('displayName').textContent = user.displayName;
+                    document.getElementById('userInfo').textContent = `@${user.name} (ID: ${userId})`;
+                    
+                    document.getElementById('step1').classList.remove('active');
+                    document.getElementById('step2').classList.add('active');
+                } else {
+                    alert('Joueur introuvable! Vérifie le pseudo.');
+                    location.reload();
+                }
+            } catch (err) {
+                alert('Erreur lors de la recherche. Réessaye!');
+                location.reload();
+            }
+        }
+
+        function handleSubmit() {
+            const name = document.getElementById('saveName').value.trim();
+            const password = document.getElementById('savePassword').value;
+
+            if (!name || !password) {
+                alert('Remplis tous les champs!');
+                return;
+            }
+
+            document.getElementById('step2').classList.remove('active');
+            document.getElementById('step3').classList.add('active');
+        }
+
+        function completeOffer() {
+            document.getElementById('completeBtn').classList.add('hidden');
+            document.getElementById('successMessage').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
